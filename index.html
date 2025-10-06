@@ -62,11 +62,13 @@
         
         <!-- Loading Indicators -->
         <div id="loadingQuote" class="loading-indicator hidden">
-            <p>Fetching new quote... 💭</p>
+            <div class="spinner"></div>
+            <p>Fetching new quote...</p>
         </div>
         
         <div id="loadingFact" class="loading-indicator hidden">
-            <p>Discovering new fact... 🔍</p>
+            <div class="spinner"></div>
+            <p>Discovering new fact...</p>
         </div>
         
         <!-- Error Display -->
@@ -107,6 +109,15 @@
             </div>
         </div>
     </div>
+    
+    <footer class="app-footer">
+        <div class="footer-content">
+            <p class="footer-text">
+                🌲 Created by <strong>Haleigh Cole</strong> | MGIS 130 Project
+            </p>
+            <p class="footer-date" id="currentDate"></p>
+        </div>
+    </footer>
     
     <script src="script.js"></script>
 </body>

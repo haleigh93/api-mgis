@@ -87,6 +87,9 @@ function displayQuote(quoteData) {
     quoteDisplay.classList.remove('fade-in');
     void quoteDisplay.offsetWidth; // Trigger reflow
     quoteDisplay.classList.add('fade-in');
+    
+    // Remove updating class from card
+    document.querySelector('.quote-card').classList.remove('updating');
 }
 
 function displayFact(factData) {
@@ -99,6 +102,9 @@ function displayFact(factData) {
     factDisplay.classList.remove('fade-in');
     void factDisplay.offsetWidth; // Trigger reflow
     factDisplay.classList.add('fade-in');
+    
+    // Remove updating class from card
+    document.querySelector('.fact-card').classList.remove('updating');
 }
 
 function showLoading(type, isLoading) {
@@ -129,6 +135,9 @@ function showError(message) {
 // Main Functions - Bringing it all together
 async function loadQuote() {
     try {
+        // Add updating class to card
+        document.querySelector('.quote-card').classList.add('updating');
+        
         const category = quoteCategory.value;
         const quoteData = await getQuote(category);
         displayQuote(quoteData);
@@ -140,11 +149,15 @@ async function loadQuote() {
                 <p style="font-size: 0.9em; color: #7f8c8d;">${error.message}</p>
             </div>
         `;
+        document.querySelector('.quote-card').classList.remove('updating');
     }
 }
 
 async function loadFact() {
     try {
+        // Add updating class to card
+        document.querySelector('.fact-card').classList.add('updating');
+        
         const factData = await getFact();
         displayFact(factData);
     } catch (error) {
@@ -155,6 +168,7 @@ async function loadFact() {
                 <p style="font-size: 0.9em; color: #7f8c8d;">${error.message}</p>
             </div>
         `;
+        document.querySelector('.fact-card').classList.remove('updating');
     }
 }
 
@@ -189,6 +203,12 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Processing Layer: Ready for multiple API requests');
     console.log('UI Layer: Event listeners attached');
     
+    // Set current date in footer
+    const dateElement = document.getElementById('currentDate');
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const currentDate = new Date().toLocaleDateString('en-US', options);
+    dateElement.textContent = currentDate;
+    
     // Check if API key is configured
     if (API_KEY === 'YOUR_API_KEY_HERE') {
         showError('Please add your API Ninjas key to script.js');
@@ -197,6 +217,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Load initial content
     refreshContent();
+    
+    // Add pulse animation to cards on first load
+    setTimeout(() => {
+        document.querySelector('.quote-card').classList.add('pulse-once');
+        document.querySelector('.fact-card').classList.add('pulse-once');
+    }, 500);
 });
 
 // Professional error handling
