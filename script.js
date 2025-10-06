@@ -5,6 +5,7 @@ const FACTS_URL = 'https://api.api-ninjas.com/v1/facts';
 
 // Get DOM elements
 const refreshBtn = document.getElementById('refreshBtn');
+const darkModeToggle = document.getElementById('darkModeToggle');
 const quoteCategory = document.getElementById('quoteCategory');
 const quoteDisplay = document.getElementById('quoteDisplay');
 const factDisplay = document.getElementById('factDisplay');
@@ -12,6 +13,9 @@ const loadingQuote = document.getElementById('loadingQuote');
 const loadingFact = document.getElementById('loadingFact');
 const errorDisplay = document.getElementById('errorDisplay');
 const errorMessage = document.getElementById('errorMessage');
+
+// Dark mode state (session-based)
+let isDarkMode = false;
 
 // Processing Layer - API Request Function
 async function makeAPIRequest(url, params = {}) {
@@ -79,6 +83,10 @@ function displayQuote(quoteData) {
             <p class="quote-author">— ${quoteData.author}</p>
         </div>
     `;
+    // Add fade-in animation
+    quoteDisplay.classList.remove('fade-in');
+    void quoteDisplay.offsetWidth; // Trigger reflow
+    quoteDisplay.classList.add('fade-in');
 }
 
 function displayFact(factData) {
@@ -87,6 +95,10 @@ function displayFact(factData) {
             <p class="fact-text">${factData.fact}</p>
         </div>
     `;
+    // Add fade-in animation
+    factDisplay.classList.remove('fade-in');
+    void factDisplay.offsetWidth; // Trigger reflow
+    factDisplay.classList.add('fade-in');
 }
 
 function showLoading(type, isLoading) {
@@ -154,8 +166,19 @@ async function refreshContent() {
     ]);
 }
 
+// Dark Mode Toggle Function
+function toggleDarkMode() {
+    isDarkMode = !isDarkMode;
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    
+    // Update button text
+    darkModeToggle.textContent = isDarkMode ? '☀️ Light Mode' : '🌙 Dark Mode';
+}
+
 // Event Listeners - UI Layer
 refreshBtn.addEventListener('click', refreshContent);
+
+darkModeToggle.addEventListener('click', toggleDarkMode);
 
 quoteCategory.addEventListener('change', loadQuote);
 
