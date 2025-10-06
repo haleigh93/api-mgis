@@ -42,7 +42,9 @@ async function getQuote(category) {
     try {
         showLoading('quote', true);
         
-        const data = await makeAPIRequest(QUOTES_URL, { category: category });
+        // Pass category parameter to API
+        const params = category ? { category: category } : {};
+        const data = await makeAPIRequest(QUOTES_URL, params);
         
         if (!data || data.length === 0) {
             throw new Error('No quotes found for this category');
