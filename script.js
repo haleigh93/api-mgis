@@ -42,7 +42,7 @@ async function getQuote(category) {
     try {
         showLoading('quote', true);
         
-        const data = await makeAPIRequest(QUOTES_URL);
+        const data = await makeAPIRequest(QUOTES_URL, { category: category });
         
         if (!data || data.length === 0) {
             throw new Error('No quotes found for this category');
@@ -194,7 +194,10 @@ refreshBtn.addEventListener('click', refreshContent);
 
 darkModeToggle.addEventListener('click', toggleDarkMode);
 
-quoteCategory.addEventListener('change', loadQuote);
+quoteCategory.addEventListener('change', () => {
+    // Load both quote and fact when category changes
+    refreshContent();
+});
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', () => {
