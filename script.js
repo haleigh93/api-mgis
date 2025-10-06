@@ -42,12 +42,11 @@ async function getQuote(category) {
     try {
         showLoading('quote', true);
         
-        // Pass category parameter to API
-        const params = category ? { category: category } : {};
-        const data = await makeAPIRequest(QUOTES_URL, params);
+        // Make API request without category parameter (API may not support filtering by category)
+        const data = await makeAPIRequest(QUOTES_URL);
         
         if (!data || data.length === 0) {
-            throw new Error('No quotes found for this category');
+            throw new Error('No quotes found');
         }
         
         return data[0]; // API returns array, we want first quote
